@@ -10,7 +10,7 @@ class PostModel {
       {required this.title,
       required this.description,
       required this.id,
-        required this.postDate,
-        required this.userId,
+      required this.postDate,
+      required this.userId,
       required this.videoURL});
 }

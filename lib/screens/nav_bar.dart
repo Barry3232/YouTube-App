@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:youtube_app/screens/first_screen.dart';
 import 'package:youtube_app/screens/shorts_screen.dart';
@@ -24,8 +22,6 @@ class _NavBarState extends State<NavBar> {
     pageControllar = PageController(initialPage: _page);
   }
 
-
-
   @override
   void dispose() {
     super.dispose();
@@ -36,7 +32,6 @@ class _NavBarState extends State<NavBar> {
     setState(() {
       _page = page;
     });
-    print("dddddd");
   }
 
   void navigationTapper(int page) {
@@ -46,32 +41,30 @@ class _NavBarState extends State<NavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        physics: const NeverScrollableScrollPhysics(),
-        controller: pageControllar,
-        onPageChanged: pageChanger,
-        children: const [
-          FirstScreen(),
-          ShortsScreen(),
-          SizedBox(),
-          SubscriptionScreen(),
-          YouScreen(),
-        ],
-      ),
-      bottomNavigationBar: BottomTab(
-        index: _page,
-        onTap: navigationTapper,
-
-      ),
-    );
+        body: PageView(
+          physics: const NeverScrollableScrollPhysics(),
+          controller: pageControllar,
+          onPageChanged: pageChanger,
+          children: const [
+            FirstScreen(),
+            ShortsScreen(),
+            SizedBox(),
+            SubscriptionScreen(),
+            YouScreen(),
+          ],
+        ),
+        bottomNavigationBar:  BottomTab(
+            index: _page,
+            onTap: navigationTapper,
+          ),
+        );
   }
 }
 
 class BottomTab extends StatefulWidget {
+
   final int index;
   final ValueChanged<int> onTap;
-
-
   const BottomTab({super.key, required this.index, required this.onTap});
 
   @override
@@ -81,61 +74,84 @@ class BottomTab extends StatefulWidget {
 class _BottomTabState extends State<BottomTab> {
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    // final size = MediaQuery.of(context).size;
     return BottomAppBar(
       surfaceTintColor: Colors.white,
+
       // notchMargin: 13.0,
       shape: const CircularNotchedRectangle(),
-
-      color: (widget.index == 2 || widget.index == 1)?Colors.black:null,
-      child:
-          // Container(
-          //   alignment: Alignment.center,
-          //   width: size.width,
-          //   height: 80,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              buildTabItem(widget.index == 0?  const Icon(Icons.home ): const Icon(Icons.home_outlined) , 0, 'Home'),
-              buildTabItem(widget.index == 1? const Icon(Icons.play_circle, color: Colors.white,)
-                  : const Icon(Icons.play_circle_outline), 1, 'Short'),
-             CircleAvatar(
-               backgroundColor: Colors.black,
-               radius: 21,
-               child: CircleAvatar(
-                 backgroundColor: Colors.white,
-                 child: InkWell(
+      color: (widget.index == 2 || widget.index == 1)
+          ? Colors.black
+          : Colors.white,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          buildTabItem(
+              widget.index == 0
+                  ? const Icon(Icons.home)
+                  : const Icon(Icons.home_outlined),
+              0,
+              'Home'),
+          buildTabItem(
+              widget.index == 1
+                  ? const Icon(
+                      Icons.play_circle,
+                      color: Colors.white,
+                    )
+                  : const Icon(Icons.play_circle_outline),
+              1,
+              'Short'),
+          CircleAvatar(
+            backgroundColor: Colors.black,
+            radius: 21,
+            child: CircleAvatar(
+              backgroundColor: Colors.white,
+              child: InkWell(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => const UploadScreen()));
                   },
-                  child: const Icon(Icons.add, size: 30,)
-                 ),
-               ),
-             ),
-             buildTabItem(widget.index == 3?  const Icon(Icons.subscriptions)
-                 : const Icon(Icons.subscriptions_outlined), 3, 'Subs'),
-             Column(
-               mainAxisAlignment: MainAxisAlignment.center,
-               children: [
-                 InkWell(
-                   onTap: (){
-
-                     widget.onTap(4);
-                   },
-                   child: const CircleAvatar(
-                               backgroundImage: AssetImage('assets/images/Allie Goldman.png'),
-                               radius: 12,
-                             ),
-                 ),
-                 const SizedBox(
-                   height:3
-                 ),
-                 const Text('You', style: TextStyle(
-                   fontSize: 8
-                 ),)
-               ],
-             )
+                  child: const Icon(
+                    Icons.add,
+                    size: 30,
+                  )),
+            ),
+          ),
+          buildTabItem(
+              widget.index == 3
+                  ? const Icon(Icons.subscriptions)
+                  : const Icon(Icons.subscriptions_outlined),
+              3,
+              'Subs'),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              InkWell(
+                  onTap: () {
+                    widget.onTap(4);
+                  },
+                  child: (widget.index != 4
+                      ? const CircleAvatar(
+                          backgroundImage:
+                              AssetImage('assets/images/Allie Goldman.png'),
+                          radius: 12,
+                        )
+                      : const CircleAvatar(
+                          backgroundColor: Colors.black,
+                          radius: 12,
+                          child: CircleAvatar(
+                            backgroundImage:
+                                AssetImage('assets/images/Allie Goldman.png'),
+                            radius: 9,
+                          ),
+                        ))),
+              const SizedBox(height: 3),
+              const Text(
+                'You',
+                style: TextStyle(fontSize: 8),
+              )
+            ],
+          )
         ],
       ),
     );
@@ -145,9 +161,9 @@ class _BottomTabState extends State<BottomTab> {
     final isSelected = index == widget.index;
     return InkWell(
       onTap: () => widget.onTap(index),
-      focusColor: Colors.transparent,
-      highlightColor: Colors.transparent,
-      splashColor: Colors.transparent,
+      // focusColor: Colors.transparent,
+      // highlightColor: Colors.grey,
+      splashColor: Colors.grey, borderRadius: BorderRadius.circular(10) ,
       child: Container(
         padding: const EdgeInsets.only(top: 3),
         height: 40,
@@ -157,8 +173,11 @@ class _BottomTabState extends State<BottomTab> {
             IconTheme(
                 data: IconThemeData(
                     size: isSelected ? 26 : 24,
-                    color: isSelected ? Colors.black : (widget.index == 1|| widget.index ==2)
-                        ? Colors.white:Colors.black),
+                    color: isSelected
+                        ? Colors.black
+                        : (widget.index == 1 || widget.index == 2)
+                            ? Colors.white
+                            : Colors.black),
                 child: icon),
             Text(title,
                 overflow: TextOverflow.ellipsis,

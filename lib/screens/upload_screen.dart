@@ -1,18 +1,12 @@
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube_app/model/post_model.dart';
-import 'package:youtube_app/screens/you_screen.dart';
-import 'package:youtube_app/screens/shorts_screen.dart';
-import 'package:youtube_app/screens/subscription_screen.dart';
 import 'package:youtube_app/service/firebase_database_service.dart';
-
-import 'first_screen.dart';
 
 class UploadScreen extends StatefulWidget {
   const UploadScreen({super.key});
@@ -28,7 +22,6 @@ class UploadScreenState extends State<UploadScreen> {
 
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-
 
   File? videoFile;
   XFile? pickerFile;
@@ -92,24 +85,25 @@ class UploadScreenState extends State<UploadScreen> {
     try {
       final videoUrl = await saveVideo();
       final auth = FirebaseAuth.instance;
-      final newPost = PostModel(title: titleController.text.trim(), description: descriptionController.text.trim(), id: "new", postDate: DateTime.now(), userId: auth.currentUser?.uid?? "new", videoURL: videoUrl);
+      final newPost = PostModel(
+          title: titleController.text.trim(),
+          description: descriptionController.text.trim(),
+          id: "new",
+          postDate: DateTime.now(),
+          userId: auth.currentUser?.uid ?? "new",
+          videoURL: videoUrl);
       await FirebaseDBService().addPost(newPost);
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: const Text('Post uploaded successfully')));
-
-
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Post uploaded successfully')));
     } on SocketException catch (e) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.message)));
-    } on FirebaseException catch (e){
-      if(e.code == 1000){
+    } on FirebaseException catch (e) {
+      if (e.code == 1000) {
         ScaffoldMessenger.of(context)
             .showSnackBar(const SnackBar(content: Text("Error")));
       }
-
-    }
-
-    catch (e) {
+    } catch (e) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.toString())));
     } finally {
@@ -124,7 +118,7 @@ class UploadScreenState extends State<UploadScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: InkWell(
-            onTap: ()=> Navigator.of(context).pop(),
+            onTap: () => Navigator.of(context).pop(),
             child: const Icon(Icons.close)),
       ),
       body: Column(
@@ -199,8 +193,8 @@ class UploadScreenState extends State<UploadScreen> {
               color: Colors.lightBlueAccent,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: videoFile == null
-                ?InkWell(
+               child: videoFile == null
+                ? InkWell(
                     onTap: () => pickVideo(ImageSource.gallery),
                     child: const Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -218,7 +212,7 @@ class UploadScreenState extends State<UploadScreen> {
                     ),
                   )
                 : _controller.value.isInitialized
-                    ?AspectRatio(
+                    ? AspectRatio(
                         aspectRatio: _controller.value.aspectRatio,
                         child: InkWell(
                             onTap: () {
@@ -245,8 +239,9 @@ class UploadScreenState extends State<UploadScreen> {
                   (states) => const BorderSide(color: Colors.black)),
             ),
             onPressed: submit,
-            child:
-                isSubmitting ? const CircularProgressIndicator() : const Text('Save'),
+            child: isSubmitting
+                ? const CircularProgressIndicator()
+                : const Text('Save'),
           )
         ],
       ),

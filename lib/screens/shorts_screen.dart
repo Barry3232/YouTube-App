@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:youtube_app/screens/first_screen.dart';
-import 'package:youtube_app/screens/you_screen.dart';
-import 'package:youtube_app/screens/subscription_screen.dart';
-import 'package:youtube_app/screens/upload_screen.dart';
+import 'package:youtube_app/posts/post.dart';
+
 
 class ShortsScreen extends StatefulWidget {
   const ShortsScreen({super.key});
@@ -14,16 +12,25 @@ class ShortsScreen extends StatefulWidget {
 }
 
 class ShortsScreenState extends State<ShortsScreen> {
+
+  final _controller = PageController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-      ),
       backgroundColor: Colors.black,
-
-      body: SafeArea(child: Container(),),
-
+      body: PageView(
+        scrollDirection: Axis.vertical,
+        controller: _controller,
+        children: [
+          MyPost(color: Colors.grey),
+          MyPost(color: Colors.blueAccent),
+          MyPost(color: Colors.greenAccent),
+          MyPost(color: Colors.brown),
+          MyPost(color: Colors.black),
+        ],
+      ),
     );
   }
 }
+

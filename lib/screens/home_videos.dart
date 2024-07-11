@@ -16,6 +16,7 @@ class HomeVideos extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(children: [
       Container(
+
         height: 200,
         width: double.infinity,
         color: color,
