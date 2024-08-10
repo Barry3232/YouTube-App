@@ -15,8 +15,10 @@ class FirebaseDBService{
 
     }
 
-    Future<DatabaseReference> readPost()async{
-     return dbRef.child('post');
+    Future<DataSnapshot> readAllPost()async{
+     return
+      await dbRef.get();
+
     }
 
 }

@@ -41,9 +41,9 @@ class HomeVideos extends StatelessWidget {
 
             ],
           ),
-          const Expanded(
+           Expanded(
             child: Text(
-                'First flutter application course - Flutter for beginners - Flutter tutorial'),
+                text),
           )
         ],
       )

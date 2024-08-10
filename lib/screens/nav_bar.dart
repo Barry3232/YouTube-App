@@ -62,10 +62,10 @@ class _NavBarState extends State<NavBar> {
 }
 
 class BottomTab extends StatefulWidget {
-
+  const BottomTab({super.key, required this.index, required this.onTap});
   final int index;
   final ValueChanged<int> onTap;
-  const BottomTab({super.key, required this.index, required this.onTap});
+
 
   @override
   State<BottomTab> createState() => _BottomTabState();

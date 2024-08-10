@@ -5,6 +5,7 @@ import 'package:youtube_app/posts/post.dart';
 class ShortsScreen extends StatefulWidget {
   const ShortsScreen({super.key});
 
+
   @override
   State<ShortsScreen> createState() {
     return ShortsScreenState();
@@ -13,13 +14,13 @@ class ShortsScreen extends StatefulWidget {
 
 class ShortsScreenState extends State<ShortsScreen> {
 
-  final _controller = PageController();
 
+  final _controller = PageController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: PageView(
+      body:
+      PageView(
         scrollDirection: Axis.vertical,
         controller: _controller,
         children: [
