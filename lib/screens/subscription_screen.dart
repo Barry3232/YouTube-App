@@ -10,15 +10,36 @@ class SubscriptionScreen extends StatefulWidget {
   }
 }
 
-class SubscriptionScreenState extends State<SubscriptionScreen>
-    with TickerProviderStateMixin {
+class SubscriptionScreenState extends State<SubscriptionScreen> {
+  List<String> items = [
+    "All",
+    "Today",
+    "Videos",
+    "Shorts",
+    "Live",
+    "Posts",
+    "Continue watching",
+    "Unwanted",
+    "Settings",
+  ];
+
+  List<IconData> icon = [
+    Icons.home,
+    Icons.accessibility,
+    Icons.ac_unit_outlined,
+    Icons.add,
+    Icons.book,
+    Icons.padding_rounded,
+    Icons.safety_check,
+    Icons.hail,
+    Icons.access_alarm,
+  ];
+
+  int current = 0;
+
   @override
   Widget build(BuildContext context) {
-    TabController tabController = TabController(length: 8, vsync: this);
-
-    final deviceSize = MediaQuery
-        .of(context)
-        .size;
+    final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -58,233 +79,132 @@ class SubscriptionScreenState extends State<SubscriptionScreen>
           ),
         ),
         body: SingleChildScrollView(
-            child: Column(
-                children: [
-                  Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: SizedBox(
-                        width: deviceSize.width,
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              MyCircularAvatar(text: 'text'),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              MyCircularAvatar(text: 'Dream'),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              MyCircularAvatar(text: 'Space'),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              MyCircularAvatar(text: 'Spacer'),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              MyCircularAvatar(text: 'Vault'),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              MyCircularAvatar(text: 'Bloom'),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              MyCircularAvatar(text: 'Drain')
-                            ],
-                          ),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: SizedBox(
+                  width: deviceSize.width,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        MyCircularAvatar(text: 'text'),
+                        const SizedBox(
+                          width: 10,
                         ),
-                      )),
-                  const SizedBox(
-                    height: 10,
+                        MyCircularAvatar(text: 'Dream'),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        MyCircularAvatar(text: 'Space'),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        MyCircularAvatar(text: 'Spacer'),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        MyCircularAvatar(text: 'Vault'),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        MyCircularAvatar(text: 'Bloom'),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        MyCircularAvatar(text: 'Drain')
+                      ],
+                    ),
                   ),
-                  TabBar(
-                    unselectedLabelColor: Colors.black,
-                      labelColor: Colors.white,
-                      indicatorColor: Colors.transparent,
-                      // overlayColor: MaterialStateProperty<Colors.black?>?,
-                      isScrollable: true,
-                      controller: tabController, tabs: [
-                    Tab(
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: 40,
-                        height: 30,
-                        decoration: BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.circular(8)
-                          // border: ,
+                ),
+              ),
+              SizedBox(
+                height: 55,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: items.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) => GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          current = index;
+                        });
+                      },
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        padding: const EdgeInsets.only(left: 8, right: 8),
+                        margin: const EdgeInsets.all(3),
+                        constraints: const BoxConstraints(
+                          maxWidth: double.infinity,
                         ),
-                        child: const Text('All'),
-                      ),
-
-                    ),
-                    Tab(
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: 60,
-                        height: 30,
                         decoration: BoxDecoration(
-                            color: Colors.grey,
-                            borderRadius: BorderRadius.circular(8)
-                          // border: ,
+                          color:
+                              current == index ? Colors.black : Colors.black12,
+                          borderRadius: BorderRadius.circular(5),
                         ),
-                        child: const Text('Today'),
-                      ),
-                    ),
-                    Tab(
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: 60,
-                        height: 30,
-                        decoration: BoxDecoration(
-                            color: Colors.grey,
-                            borderRadius: BorderRadius.circular(8)
-                          // border: ,
-                        ),
-                        child: const Text('Videos'),
+                        child: Center(
+                            child: Text(
+                          items[index],
+                          style: TextStyle(
+                            fontSize: 16,
+                            color:
+                                current == index ? Colors.white : Colors.black,
+                          ),
+                        )),
                       ),
                     ),
-                    Tab(
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: 60,
-                        height: 30,
-                        decoration: BoxDecoration(
-                            color: Colors.grey,
-                            borderRadius: BorderRadius.circular(8)
-                          // border: ,
-                        ),
-                        child: const Text('Shorts'),
-                      ),
-                    ),
-                    Tab(
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: 45,
-                        height: 30,
-                        decoration: BoxDecoration(
-                            color: Colors.grey,
-                            borderRadius: BorderRadius.circular(8)
-                          // border: ,
-                        ),
-                        child: const Text('Live'),
-                      ),
-                    ),
-                    Tab(
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: 55,
-                        height: 30,
-                        decoration: BoxDecoration(
-                            color: Colors.grey,
-                            borderRadius: BorderRadius.circular(8)
-                          // border: ,
-                        ),
-                        child: const Text('posts'),
-                      ),
-                    ),
-                    Tab(
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: 150,
-                        height: 30,
-                        decoration: BoxDecoration(
-                            color: Colors.grey,
-                            borderRadius: BorderRadius.circular(8)
-                          // border: ,
-                        ),
-                        child: const Text('Continue watching'),
-                      ),
-                    ),
-                    Tab(
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: 100,
-                        height: 30,
-                        decoration: BoxDecoration(
-                            color: Colors.grey,
-                            borderRadius: BorderRadius.circular(8)
-                          // border: ,
-                        ),
-                        child: const Text('Unwatched'),
-                      ),
-                    ),
-                    Tab(
-                      child: InkWell(
-                        onTap: (){},
-                        child: const Text('Settings',
-                        style: TextStyle(
-                          color: Colors.purple
-                        ),),
-                      ),
-                      // text: 'Settings',
-                    )
-                  ]),
-                ])));
+                  ),
+                ),
+                // Visibility(
+                //     visible: true,
+                //     child: Container(
+                //       width: 5,
+                //       height: 5,
+                //       decoration: BoxDecoration(
+                //           shape: BoxShape.circle, color: Colors.blue),
+                //     ))
+              ),
+              Container(
+                width: deviceSize.width,
+                decoration: BoxDecoration(
+                  // color: Colors.red,
+                ),
+                child: Column(
+                  children: [
+                    Icon(icon[current], size: 200,)
+                  ],
+                ),
+              )
+            ],
+          ),
+        ));
   }
 }
 
-// body: SingleChildScrollView(
-//   child:
-//   Column(
-//     crossAxisAlignment: CrossAxisAlignment.start,
-//     children: [
-//       Row(
-//         children: [
-//           MyCircularAvatar(),
-//         ],
-//       ),
-//
-//       TabBarView(
-//           controller: tabController,
-//           children: [
-//             SingleChildScrollView(
-//               child: Column(
-//                 children: [
-//                   HomeVideos(
-//                       text:
-//                       'First flutter application course - Flutter for beginners - Flutter tutorial',
-//                       color: Colors.redAccent,
-//                       image: const AssetImage(
-//                           'assets/images/Thomas Stone.png')),
-//                   const SizedBox(
-//                     height: 10,
-//                   ),
-//                   HomeVideos(
-//                       text:
-//                       'First flutter application course - Flutter for beginners - Flutter tutorial',
-//                       color: Colors.blueGrey,
-//                       image: const AssetImage(
-//                           'assets/images/Thomas Stone.png')),
-//                   const SizedBox(
-//                     height: 10,
-//                   ),
-//                   HomeVideos(
-//                       text:
-//                       'First flutter application course - Flutter for beginners - Flutter tutorial',
-//                       color: Colors.brown,
-//                       image: const AssetImage(
-//                           'assets/images/Thomas Stone.png'))
-//                 ],
-//               ),
-//             ),
-//
-//             Text('Here'),
-//             Text('There'),
-//             Text('Them'),
-//             Text('Clam'),
-//             Text('View'),
-//             Text('View'),
-//             Text('View'),
-//             Text('View'),
-//             Text('View'),
-//           ],
-//         ),
-//
-//
-//     ],
-//   ),
+// HomeVideos(
+// text:
+// 'First flutter application course - Flutter for beginners - Flutter tutorial',
+// color: Colors.redAccent,
+// image:
+// const AssetImage('assets/images/Thomas Stone.png')),
+// const SizedBox(
+// height: 10,
 // ),
+// HomeVideos(
+// text:
+// 'First flutter application course - Flutter for beginners - Flutter tutorial',
+// color: Colors.blueGrey,
+// image:
+// const AssetImage('assets/images/Thomas Stone.png')),
+// const SizedBox(
+// height: 10,
+// ),
+// HomeVideos(
+// text:
+// 'First flutter application course - Flutter for beginners - Flutter tutorial',
+// color: Colors.brown,
+// image:
+// const AssetImage('assets/images/Thomas Stone.png')),

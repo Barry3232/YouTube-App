@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:youtube_app/screens/first_screen.dart';
-import 'package:youtube_app/screens/shorts_screen.dart';
-import 'package:youtube_app/screens/subscription_screen.dart';
-import 'package:youtube_app/screens/upload_screen.dart';
 
 class YouScreen extends StatefulWidget {
   const YouScreen({super.key});

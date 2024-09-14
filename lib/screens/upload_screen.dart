@@ -117,133 +117,137 @@ class UploadScreenState extends State<UploadScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
         leading: InkWell(
             onTap: () => Navigator.of(context).pop(),
             child: const Icon(Icons.close)),
       ),
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 60,
-          ),
-          Form(
-            key: _formKey,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  TextFormField(
-                    controller: titleController,
-                    validator: (val) {
-                      if (val == null || val.isEmpty) {
-                        return 'This is required';
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                        labelText: 'Title',
-                        labelStyle: const TextStyle(
-                          color: Colors.black,
-                        ),
-                        enabledBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                          color: Colors.black,
-                        )),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(color: Colors.red),
-                        )),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextFormField(
-                    controller: descriptionController,
-                    validator: (val) {
-                      if (val == null || val.isEmpty) {
-                        return 'This is required';
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                        labelText: 'Description',
-                        labelStyle: const TextStyle(
-                          color: Colors.black,
-                        ),
-                        enabledBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                          color: Colors.black,
-                        )),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(color: Colors.red),
-                        )),
-                  ),
-                ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 60,
+            ),
+            Form(
+              key: _formKey,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    TextFormField(
+                      controller: titleController,
+                      validator: (val) {
+                        if (val == null || val.isEmpty) {
+                          return 'This is required';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                          labelText: 'Title',
+                          labelStyle: const TextStyle(
+                            color: Colors.black,
+                          ),
+                          enabledBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                            color: Colors.black,
+                          )),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(color: Colors.red),
+                          )),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      controller: descriptionController,
+                      validator: (val) {
+                        if (val == null || val.isEmpty) {
+                          return 'This is required';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                          labelText: 'Description',
+                          labelStyle: const TextStyle(
+                            color: Colors.black,
+                          ),
+                          enabledBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                            color: Colors.black,
+                          )),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(color: Colors.red),
+                          )),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          const SizedBox(
-            height: 100,
-          ),
-          Container(
-            height: 200,
-            width: 300,
-            decoration: BoxDecoration(
-              color: Colors.lightBlueAccent,
-              borderRadius: BorderRadius.circular(10),
+            const SizedBox(
+              height: 100,
             ),
-               child: videoFile == null
-                ? InkWell(
-                    onTap: () => pickVideo(ImageSource.gallery),
-                    child: const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Upload',
-                          style: TextStyle(fontSize: 28),
-                        ),
-                        Icon(
-                          Icons.add,
-                          size: 40,
-                          color: Colors.black,
-                        ),
-                      ],
-                    ),
-                  )
-                : _controller.value.isInitialized
-                    ? AspectRatio(
-                        aspectRatio: _controller.value.aspectRatio,
-                        child: InkWell(
-                            onTap: () {
-                              setState(() {
-                                _controller.value.isPlaying
-                                    ? _controller.pause()
-                                    : _controller.play();
-                              });
-                            },
-                            child: VideoPlayer(_controller)),
-                      )
-                    : Container(),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          ElevatedButton(
-            style: ButtonStyle(
-              backgroundColor:
-                  MaterialStateProperty.resolveWith((states) => Colors.white),
-              overlayColor: MaterialStateProperty.resolveWith(
-                  (states) => Colors.blueGrey),
-              side: MaterialStateProperty.resolveWith(
-                  (states) => const BorderSide(color: Colors.black)),
+            Container(
+              height: 300,
+              width: 345,
+              decoration: BoxDecoration(
+                color: Colors.lightBlueAccent,
+                borderRadius: BorderRadius.circular(10),
+              ),
+                 child: videoFile == null
+                  ? InkWell(
+                      onTap: () => pickVideo(ImageSource.gallery),
+                      child: const Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Upload',
+                            style: TextStyle(fontSize: 28),
+                          ),
+                          Icon(
+                            Icons.add,
+                            size: 40,
+                            color: Colors.black,
+                          ),
+                        ],
+                      ),
+                    )
+                  : _controller.value.isInitialized
+                      ? AspectRatio(
+                          aspectRatio: _controller.value.aspectRatio,
+                          child:
+                          InkWell(
+                              onTap: () {
+                                setState(() {
+                                  _controller.value.isPlaying
+                                      ? _controller.pause()
+                                      : _controller.play();
+                                });
+                              },
+                              child: VideoPlayer(_controller)),
+                        )
+                      : Container(),
             ),
-            onPressed: submit,
-            child: isSubmitting
-                ? const CircularProgressIndicator()
-                : const Text('Save'),
-          )
-        ],
+            const SizedBox(
+              height: 15,
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.resolveWith((states) => Colors.white),
+                overlayColor: MaterialStateProperty.resolveWith(
+                    (states) => Colors.blueGrey),
+                side: MaterialStateProperty.resolveWith(
+                    (states) => const BorderSide(color: Colors.black)),
+              ),
+              onPressed: submit,
+              child: isSubmitting
+                  ? const CircularProgressIndicator()
+                  : const Text('Save'),
+            )
+          ],
+        ),
       ),
     );
   }
