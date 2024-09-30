@@ -23,16 +23,40 @@ class SubscriptionScreenState extends State<SubscriptionScreen> {
     "Settings",
   ];
 
-  List<IconData> icon = [
-    Icons.home,
-    Icons.accessibility,
-    Icons.ac_unit_outlined,
-    Icons.add,
-    Icons.book,
-    Icons.padding_rounded,
-    Icons.safety_check,
-    Icons.hail,
-    Icons.access_alarm,
+  List<Widget> widgets = [
+    Container(
+      color: Colors.red,
+      height: 40,
+      width: 40,
+    ),
+    Container(
+      color: Colors.green,
+      height: 400,
+      width: 40,
+    ),
+    Container(
+      color: Colors.yellow,
+      height: 40,
+      width: 40,
+    ),
+    Container(
+      color: Colors.yellow,
+    ),
+    Container(
+      color: Colors.yellow,
+    ),
+    Container(
+      color: Colors.yellow,
+    ),
+    Container(
+      color: Colors.yellow,
+    ),
+    Container(
+      color: Colors.yellow,
+    ),
+    Container(
+      color: Colors.yellow,
+    ),
   ];
 
   int current = 0;
@@ -127,55 +151,62 @@ class SubscriptionScreenState extends State<SubscriptionScreen> {
                     physics: const BouncingScrollPhysics(),
                     itemCount: items.length,
                     scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) => GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          current = index;
-                        });
-                      },
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 300),
-                        padding: const EdgeInsets.only(left: 8, right: 8),
-                        margin: const EdgeInsets.all(3),
-                        constraints: const BoxConstraints(
-                          maxWidth: double.infinity,
-                        ),
-                        decoration: BoxDecoration(
-                          color:
-                              current == index ? Colors.black : Colors.black12,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Center(
-                            child: Text(
-                          items[index],
-                          style: TextStyle(
-                            fontSize: 16,
-                            color:
-                                current == index ? Colors.white : Colors.black,
+                    itemBuilder: (context, index) => Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              current = index;
+                            });
+                          },
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 300),
+                            padding: const EdgeInsets.only(left: 8, right: 8),
+                            margin: const EdgeInsets.all(3),
+                            constraints: const BoxConstraints(
+                              maxWidth: double.infinity,
+                            ),
+                            decoration: BoxDecoration(
+                              color: (index == 8)
+                                  ? Colors.transparent
+                                  : current == index
+                                      ? Colors.black
+                                      : Colors.black12,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: Center(
+                                child: Text(
+                              items[index],
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: (current == index && index == 8)
+                                    ? Colors.blue
+                                    : current == index
+                                        ? Colors.white
+                                        : Colors.black,
+                              ),
+                            )),
                           ),
-                        )),
-                      ),
+                        ),
+                        // Visibility(
+                        //     visible: current == index,
+                        //     child: Container(
+                        //       width: 5,
+                        //       height: 5,
+                        //       decoration: BoxDecoration(
+                        //         shape: BoxShape.circle,
+                        //         color: Colors.deepOrange,
+                        //       ),
+                        //     ))
+                      ],
                     ),
                   ),
                 ),
-                // Visibility(
-                //     visible: true,
-                //     child: Container(
-                //       width: 5,
-                //       height: 5,
-                //       decoration: BoxDecoration(
-                //           shape: BoxShape.circle, color: Colors.blue),
-                //     ))
               ),
               Container(
                 width: deviceSize.width,
-                decoration: BoxDecoration(
-                  // color: Colors.red,
-                ),
                 child: Column(
-                  children: [
-                    Icon(icon[current], size: 200,)
-                  ],
+                  children: [widgets[current]],
                 ),
               )
             ],
@@ -183,28 +214,3 @@ class SubscriptionScreenState extends State<SubscriptionScreen> {
         ));
   }
 }
-
-// HomeVideos(
-// text:
-// 'First flutter application course - Flutter for beginners - Flutter tutorial',
-// color: Colors.redAccent,
-// image:
-// const AssetImage('assets/images/Thomas Stone.png')),
-// const SizedBox(
-// height: 10,
-// ),
-// HomeVideos(
-// text:
-// 'First flutter application course - Flutter for beginners - Flutter tutorial',
-// color: Colors.blueGrey,
-// image:
-// const AssetImage('assets/images/Thomas Stone.png')),
-// const SizedBox(
-// height: 10,
-// ),
-// HomeVideos(
-// text:
-// 'First flutter application course - Flutter for beginners - Flutter tutorial',
-// color: Colors.brown,
-// image:
-// const AssetImage('assets/images/Thomas Stone.png')),

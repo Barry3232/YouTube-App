@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../model/post_model.dart';
 import '../service/firebase_database_service.dart';
+import 'clsd _screen.dart';
 import 'home_videos.dart';
 import 'package:video_player/video_player.dart';
 
@@ -92,13 +93,52 @@ class FirstScreenState extends State<FirstScreen> {
           ),
         ),
         body: isLoadingPosts
-            ? const SizedBox(
-                height: 50, width: 50, child: CircularProgressIndicator())
+            ? const Center(
+                child: SizedBox(
+                    height: 50, width: 50, child: CircularProgressIndicator()),
+              )
             : ListView.separated(
-                itemBuilder: (context, index) =>
-                    HomeVideos(
-                    text: allPostList[index].title,
-                    image: const AssetImage('assets/images/Goggle.png')),
+                itemBuilder: (context, index) => InkWell(
+                      onTap: () {
+                        showModalBottomSheet(
+                            enableDrag: true,
+                            isScrollControlled: true,
+                            context: context,
+                            builder: (context) => Column(
+                                  children: [
+                                    Container(
+                                      height: 100,
+                                      color: Colors.red,
+                                      child: Column(
+                                        children: [
+                                          Stack(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  InkWell(
+                                                      onTap: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                      child: Icon(
+                                                        Icons.arrow_drop_down,
+                                                        size: 50,
+                                                      ))
+                                                ],
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ));
+                      },
+                      child: HomeVideos(
+                          videoUrl: allPostList[index].videoURL,
+                          text: allPostList[index].title,
+                          image: const AssetImage('assets/images/Goggle.png')),
+                    ),
                 separatorBuilder: (context, _) => const SizedBox(
                       height: 10,
                     ),

@@ -64,7 +64,7 @@ class UploadScreenState extends State<UploadScreen> {
     }
     final storageRef = FirebaseStorage.instance.ref();
 
-    final videoRef = storageRef.child('videos');
+    final videoRef = storageRef.child('videos-${DateTime.now().millisecond.toString()}');
 
     await videoRef.putFile(videoFile!);
 
@@ -83,15 +83,17 @@ class UploadScreenState extends State<UploadScreen> {
       isSubmitting = true;
     });
     try {
+
       final videoUrl = await saveVideo();
+
       final auth = FirebaseAuth.instance;
+
       final newPost = PostModel(
           title: titleController.text.trim(),
           description: descriptionController.text.trim(),
           id: "new",
           postDate: DateTime.now(),
-          userId: auth.currentUser?.uid ?? "new",
-          videoURL: videoUrl);
+          userId: auth.currentUser?.uid ?? "new", videoURL: videoUrl);
       await FirebaseDBService().addPost(newPost);
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Post uploaded successfully')));
