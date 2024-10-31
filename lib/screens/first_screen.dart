@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:youtube_app/screens/clsd%20_screen.dart';
 import '../model/post_model.dart';
 import '../service/firebase_database_service.dart';
-import 'clsd _screen.dart';
 import 'home_videos.dart';
 import 'package:video_player/video_player.dart';
 
@@ -29,6 +29,7 @@ class FirstScreenState extends State<FirstScreen> {
           data.forEach((key, value) {
             final newPost = PostModel(
                 title: value['title'],
+                comment: value['comment'],
                 description: value['description'],
                 id: DateTime.now().toString(),
                 postDate: DateTime.parse(value['postDate']),
@@ -99,41 +100,13 @@ class FirstScreenState extends State<FirstScreen> {
               )
             : ListView.separated(
                 itemBuilder: (context, index) => InkWell(
-                      onTap: () {
-                        showModalBottomSheet(
-                            enableDrag: true,
-                            isScrollControlled: true,
-                            context: context,
-                            builder: (context) => Column(
-                                  children: [
-                                    Container(
-                                      height: 100,
-                                      color: Colors.red,
-                                      child: Column(
-                                        children: [
-                                          Stack(
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  InkWell(
-                                                      onTap: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      },
-                                                      child: Icon(
-                                                        Icons.arrow_drop_down,
-                                                        size: 50,
-                                                      ))
-                                                ],
-                                              )
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ));
-                      },
+                      onTap: () => showModalBottomSheet(
+                        useSafeArea: true,
+                        enableDrag: true,
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (context) => const ModelBottomSheet()
+                      ),
                       child: HomeVideos(
                           videoUrl: allPostList[index].videoURL,
                           text: allPostList[index].title,

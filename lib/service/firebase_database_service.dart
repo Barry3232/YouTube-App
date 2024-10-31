@@ -4,7 +4,7 @@ import 'package:uuid/uuid.dart';
 
 class FirebaseDBService{
     DatabaseReference dbRef = FirebaseDatabase.instance.ref('posts');
-    var uuid = Uuid();
+    var uuid = const Uuid();
 
     Future<void> addPost(PostModel post)async{
 

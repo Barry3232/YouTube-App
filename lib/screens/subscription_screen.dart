@@ -41,21 +41,33 @@ class SubscriptionScreenState extends State<SubscriptionScreen> {
     ),
     Container(
       color: Colors.yellow,
+      height: 40,
+      width: 40,
     ),
     Container(
       color: Colors.yellow,
+      height: 40,
+      width: 40,
     ),
     Container(
       color: Colors.yellow,
+      height: 40,
+      width: 40,
     ),
     Container(
       color: Colors.yellow,
+      height: 40,
+      width: 40,
     ),
     Container(
       color: Colors.yellow,
+      height: 40,
+      width: 40,
     ),
     Container(
       color: Colors.yellow,
+      height: 40,
+      width: 40,
     ),
   ];
 
@@ -203,7 +215,7 @@ class SubscriptionScreenState extends State<SubscriptionScreen> {
                   ),
                 ),
               ),
-              Container(
+              SizedBox(
                 width: deviceSize.width,
                 child: Column(
                   children: [widgets[current]],

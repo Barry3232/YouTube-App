@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_app/screens/login_screen.dart';
 
@@ -20,14 +19,16 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
     Timer(
         const Duration(seconds: 5),
-        () => Navigator.of(context).push(
+            ( ) => Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => const LoginScreen())));
     controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 5),
+
     )..addListener(() {
-        setState(() {});
-        controller.repeat(reverse: true);
+      setState(() {});
+
+
       });
   }
 
@@ -54,9 +55,10 @@ class _SplashScreenState extends State<SplashScreen>
             child: LinearProgressIndicator(
               color: Colors.red,
               value: controller.value,
+
             ),
           ),
-          LinearProgressIndicator(),
+          const LinearProgressIndicator(),
         ],
       ),
     );

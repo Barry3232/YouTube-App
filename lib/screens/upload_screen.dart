@@ -22,6 +22,7 @@ class UploadScreenState extends State<UploadScreen> {
 
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  TextEditingController commentController = TextEditingController();
 
   File? videoFile;
   XFile? pickerFile;
@@ -64,7 +65,8 @@ class UploadScreenState extends State<UploadScreen> {
     }
     final storageRef = FirebaseStorage.instance.ref();
 
-    final videoRef = storageRef.child('videos-${DateTime.now().millisecond.toString()}');
+    final videoRef =
+        storageRef.child('videos-${DateTime.now().millisecond.toString()}');
 
     await videoRef.putFile(videoFile!);
 
@@ -83,17 +85,17 @@ class UploadScreenState extends State<UploadScreen> {
       isSubmitting = true;
     });
     try {
-
       final videoUrl = await saveVideo();
-
       final auth = FirebaseAuth.instance;
 
       final newPost = PostModel(
           title: titleController.text.trim(),
           description: descriptionController.text.trim(),
+          comment: commentController.text.trim(),
           id: "new",
           postDate: DateTime.now(),
-          userId: auth.currentUser?.uid ?? "new", videoURL: videoUrl);
+          userId: auth.currentUser?.uid ?? "new",
+          videoURL: videoUrl);
       await FirebaseDBService().addPost(newPost);
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Post uploaded successfully')));
@@ -197,7 +199,7 @@ class UploadScreenState extends State<UploadScreen> {
                 color: Colors.lightBlueAccent,
                 borderRadius: BorderRadius.circular(10),
               ),
-                 child: videoFile == null
+              child: videoFile == null
                   ? InkWell(
                       onTap: () => pickVideo(ImageSource.gallery),
                       child: const Column(
@@ -218,8 +220,7 @@ class UploadScreenState extends State<UploadScreen> {
                   : _controller.value.isInitialized
                       ? AspectRatio(
                           aspectRatio: _controller.value.aspectRatio,
-                          child:
-                          InkWell(
+                          child: InkWell(
                               onTap: () {
                                 setState(() {
                                   _controller.value.isPlaying
