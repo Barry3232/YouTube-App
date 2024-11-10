@@ -14,18 +14,18 @@ class NavBar extends StatefulWidget {
 
 class _NavBarState extends State<NavBar> {
   int _page = 0;
-  late PageController pageControllar;
+  late PageController _pageController;
 
   @override
   void initState() {
     super.initState();
-    pageControllar = PageController(initialPage: _page);
+    _pageController = PageController(initialPage: _page);
   }
 
   @override
   void dispose() {
     super.dispose();
-    pageControllar.dispose();
+    _pageController.dispose();
   }
 
   void pageChanger(int page) {
@@ -35,7 +35,7 @@ class _NavBarState extends State<NavBar> {
   }
 
   void navigationTapper(int page) {
-    pageControllar.jumpToPage(page);
+    _pageController.jumpToPage(page);
   }
 
   @override
@@ -43,7 +43,7 @@ class _NavBarState extends State<NavBar> {
     return Scaffold(
         body: PageView(
           physics: const NeverScrollableScrollPhysics(),
-          controller: pageControllar,
+          controller: _pageController,
           onPageChanged: pageChanger,
           children: const [
             FirstScreen(),

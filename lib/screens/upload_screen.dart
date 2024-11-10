@@ -91,7 +91,7 @@ class UploadScreenState extends State<UploadScreen> {
       final newPost = PostModel(
           title: titleController.text.trim(),
           description: descriptionController.text.trim(),
-          comment: commentController.text.trim(),
+          // comment: commentController.text.trim(),
           id: "new",
           postDate: DateTime.now(),
           userId: auth.currentUser?.uid ?? "new",

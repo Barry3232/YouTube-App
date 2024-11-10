@@ -1,6 +1,6 @@
 class PostModel {
   // final List likes;
-  final String comment;
+  // final String comment;
   final String title;
   final String description;
   final String id;
@@ -10,7 +10,7 @@ class PostModel {
 
   PostModel({
     // required this.likes,
-    required this.comment,
+    // required this.comment,
     required this.title,
     required this.description,
     required this.id,

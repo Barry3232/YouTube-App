@@ -17,7 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
 
   bool isLoginLoading = false;
-  bool isSignupLoading = false;
+  // bool isSignupLoading = false;
 
   Future<void> loginUser() async {
     final isValidate = _formKey.currentState?.validate();
@@ -37,7 +37,6 @@ class _LoginScreenState extends State<LoginScreen> {
       await authInstance.signInWithEmailAndPassword(
           email: emailController.text.trim(),
           password: passwordController.text.trim()
-
       );
       Navigator.of(context).push(MaterialPageRoute(builder: (context) {
         return const NavBar();
@@ -57,34 +56,34 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  Future<void> registerUser() async {
-    final isValidate = _formKey.currentState?.validate();
-
-    if (!isValidate!) {
-      return;
-    }
-    _formKey.currentState?.save();
-
-    setState(() {
-      isSignupLoading = true;
-    });
-
-
-    try {
-      final authInstance = f_auth.FirebaseAuth.instance;
-
-      await authInstance.createUserWithEmailAndPassword(
-          email: emailController.text.trim(),
-          password: passwordController.text.trim());
-    } catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Error occur')));
-    } finally {
-      setState(() {
-        isSignupLoading = false;
-      });
-    }
-  }
+  // Future<void> registerUser() async {
+  //   final isValidate = _formKey.currentState?.validate();
+  //
+  //   if (!isValidate!) {
+  //     return;
+  //   }
+  //   _formKey.currentState?.save();
+  //
+  //   setState(() {
+  //     isSignupLoading = true;
+  //   });
+  //
+  //
+  //   try {
+  //     final authInstance = f_auth.FirebaseAuth.instance;
+  //
+  //     await authInstance.createUserWithEmailAndPassword(
+  //         email: emailController.text.trim(),
+  //         password: passwordController.text.trim());
+  //   } catch (e) {
+  //     ScaffoldMessenger.of(context)
+  //         .showSnackBar(const SnackBar(content: Text('Error occur')));
+  //   } finally {
+  //     setState(() {
+  //       isSignupLoading = false;
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -189,28 +188,28 @@ class _LoginScreenState extends State<LoginScreen> {
                                           style: TextStyle(color: Colors.black),
                                         )),
                             ),
-                            SizedBox(
-                              width: 100,
-                              child: ElevatedButton(
-                                style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.resolveWith(
-                                          (states) => Colors.white),
-                                  overlayColor:
-                                      MaterialStateProperty.resolveWith(
-                                          (states) => Colors.blueGrey),
-                                  side: MaterialStateProperty.resolveWith(
-                                      (states) => const BorderSide(
-                                          color: Colors.black)),
-                                ),
-                                onPressed: registerUser,
-                                child: isSignupLoading
-                                    ? const Center(
-                                        child: CircularProgressIndicator())
-                                    : const Text('SignUp',
-                                        style: TextStyle(color: Colors.black)),
-                              ),
-                            ),
+                            // SizedBox(
+                            //   width: 100,
+                            //   child: ElevatedButton(
+                            //     style: ButtonStyle(
+                            //       backgroundColor:
+                            //           MaterialStateProperty.resolveWith(
+                            //               (states) => Colors.white),
+                            //       overlayColor:
+                            //           MaterialStateProperty.resolveWith(
+                            //               (states) => Colors.blueGrey),
+                            //       side: MaterialStateProperty.resolveWith(
+                            //           (states) => const BorderSide(
+                            //               color: Colors.black)),
+                            //     ),
+                            //     onPressed: registerUser,
+                            //     child: isSignupLoading
+                            //         ? const Center(
+                            //             child: CircularProgressIndicator())
+                            //         : const Text('SignUp',
+                            //             style: TextStyle(color: Colors.black)),
+                            //   ),
+                            // ),
                           ],
                         ),
                         const SizedBox(

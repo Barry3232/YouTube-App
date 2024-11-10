@@ -29,7 +29,7 @@ class FirstScreenState extends State<FirstScreen> {
           data.forEach((key, value) {
             final newPost = PostModel(
                 title: value['title'],
-                comment: value['comment'],
+                // comment: value['comment'],
                 description: value['description'],
                 id: DateTime.now().toString(),
                 postDate: DateTime.parse(value['postDate']),
@@ -40,9 +40,13 @@ class FirstScreenState extends State<FirstScreen> {
           // print( fbPost.value);
         })
         .catchError((err) => print(err))
-        .whenComplete(() => setState(() {
-              isLoadingPosts = false;
-            }));
+        .whenComplete(() {
+      setState(() {
+        isLoadingPosts = false;
+      }) ;
+      print("all posts are ${allPostList.length}");
+    }
+    );
   }
 
   late VideoPlayerController videoPlayerController;
@@ -105,9 +109,14 @@ class FirstScreenState extends State<FirstScreen> {
                         enableDrag: true,
                         isScrollControlled: true,
                         context: context,
-                        builder: (context) => const ModelBottomSheet()
+                        builder: (context) =>  ModelBottomSheet(
+                          videoTitle: allPostList[index].title,
+                          videoDescription: allPostList[index].description,
+                          videoUrl: allPostList[index].videoURL,
+                        )
                       ),
                       child: HomeVideos(
+                        description: allPostList[index].description,
                           videoUrl: allPostList[index].videoURL,
                           text: allPostList[index].title,
                           image: const AssetImage('assets/images/Goggle.png')),
