@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "540280258902",
+    "firebase_url": "https://clone-94c15-default-rtdb.firebaseio.com",
+    "project_id": "clone-94c15",
+    "storage_bucket": "clone-94c15.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:540280258902:android:78c5c774e8f21d84aa16f7",
+        "android_client_info": {
+          "package_name": "com.example.youtube_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "540280258902-brd1nhof5coivvbsp3g508p8vsqaskdh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLPvwdIyfKasysRICY6wqYNK3vwO-6Kmo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "540280258902-brd1nhof5coivvbsp3g508p8vsqaskdh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "540280258902-j8h4k0b014mracfies9ldu92kjamkakp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.youtube"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:540280258902:android:3d4da1c597ba9b6daa16f7",
+        "android_client_info": {
+          "package_name": "com.example.youtube_v"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "540280258902-brd1nhof5coivvbsp3g508p8vsqaskdh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLPvwdIyfKasysRICY6wqYNK3vwO-6Kmo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "540280258902-brd1nhof5coivvbsp3g508p8vsqaskdh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "540280258902-j8h4k0b014mracfies9ldu92kjamkakp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.youtube"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
