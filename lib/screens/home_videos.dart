@@ -133,11 +133,14 @@ class _HomeVideosState extends State<HomeVideos> {
       Uri.parse("${widget.videoUrl}.mp4"),
     );
     _initializeVideoPlayerFuture = _videoPlayerController.initialize().then((_) {
-
       print("✅ Video initialized: ${widget.videoUrl}");
       print("Aspect ratio: ${_videoPlayerController.value.aspectRatio}");
     }).catchError((e) {
       print("❌ Video init error: $e");
+      // Handle specific ExoPlayer errors
+      if (e.toString().contains('MediaCodecVideoRenderer')) {
+        print("🔧 ExoPlayer codec error detected - this may be due to video format compatibility");
+      }
     });
   }
 
