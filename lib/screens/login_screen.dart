@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart' as f_auth;
 import 'package:flutter/material.dart';
 import 'nav_bar.dart';
@@ -17,6 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
 
   bool isLoginLoading = false;
+
   // bool isSignupLoading = false;
 
   Future<void> loginUser() async {
@@ -36,23 +36,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
       await authInstance.signInWithEmailAndPassword(
           email: emailController.text.trim(),
-          password: passwordController.text.trim()
-      );
+          password: passwordController.text.trim());
       Navigator.of(context).push(MaterialPageRoute(builder: (context) {
         return const NavBar();
       }));
-
     } catch (e) {
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Error occur')));
-
-
     } finally {
       setState(() {
         isLoginLoading = false;
       });
-
-
     }
   }
 
@@ -170,10 +164,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: ElevatedButton(
                                   style: ButtonStyle(
                                     backgroundColor:
-                                        MaterialStateProperty.resolveWith(
+                                        WidgetStateProperty.resolveWith(
                                             (states) => Colors.white),
                                     overlayColor:
-                                        MaterialStateProperty.resolveWith(
+                                        WidgetStateProperty.resolveWith(
                                             (states) => Colors.blueGrey),
                                     side: MaterialStateProperty.resolveWith(
                                         (states) => const BorderSide(

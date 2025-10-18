@@ -16,7 +16,8 @@ class FirebaseDBService {
     });
   }
 
-  Future<DataSnapshot> readAllPost() async {
-    return await dbRef.get();
+  Future<DatabaseEvent> readAllPost() async {
+    return await dbRef.once();
   }
+
 }

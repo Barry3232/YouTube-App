@@ -52,8 +52,9 @@ class _HomeVideosState extends State<CustomClsdScreen> {
       _videoPlayerController = VideoPlayerController.networkUrl(
         Uri.parse(widget.videoUrl),
       );
-      
-      _initializeVideoPlayerFuture = _videoPlayerController.initialize().then((_) {
+
+      _initializeVideoPlayerFuture =
+          _videoPlayerController.initialize().then((_) {
         if (mounted) {
           setState(() {
             _hasError = false;
@@ -68,7 +69,8 @@ class _HomeVideosState extends State<CustomClsdScreen> {
             _errorMessage = VideoHelper.getErrorMessage(error);
           });
           print("❌ Video init error: $error");
-          print("🔧 Platform info: ${VideoHelper.getPlatformSpecificMessage()}");
+          print(
+              "🔧 Platform info: ${VideoHelper.getPlatformSpecificMessage()}");
         }
       });
     } catch (e) {
@@ -107,8 +109,8 @@ class _HomeVideosState extends State<CustomClsdScreen> {
               InkWell(
                 onTap: () {
                   _videoPlayerController.seekTo(Duration(
-                      seconds:
-                      _videoPlayerController.value.position.inSeconds - 10));
+                      seconds: _videoPlayerController.value.position.inSeconds -
+                          10));
                 },
                 child: const Icon(
                   Icons.fast_rewind,
@@ -137,8 +139,8 @@ class _HomeVideosState extends State<CustomClsdScreen> {
               InkWell(
                 onTap: () {
                   _videoPlayerController.seekTo(Duration(
-                      seconds:
-                      _videoPlayerController.value.position.inSeconds + 10));
+                      seconds: _videoPlayerController.value.position.inSeconds +
+                          10));
                 },
                 child: const Center(
                   child: Icon(
@@ -305,15 +307,15 @@ class _HomeVideosState extends State<CustomClsdScreen> {
           ),
           Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(widget.text),
-                  Text(widget.description),
-                ],
-              )
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(widget.text),
+              Text(widget.description),
+            ],
+          )
 
-            //,
-          ),
+              //,
+              ),
         ],
       )
     ]);

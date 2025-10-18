@@ -25,7 +25,7 @@ class FirstScreenState extends State<FirstScreen> {
     FirebaseDBService()
         .readAllPost()
         .then((fbPost) {
-          final data = fbPost.value as Map;
+          final data = fbPost.snapshot.value as Map;
           print('data : $data');
           allPostList.clear();
           data.forEach((key, value) {
@@ -127,7 +127,9 @@ class FirstScreenState extends State<FirstScreen> {
                   description: allPostList[index].description,
                   videoUrl: allPostList[index].videoUrl,
                   text: allPostList[index].title,
-                  image: const AssetImage('assets/images/Goggle.png'),
+                  userId: allPostList[index].userId,
+
+
                 ),
               ),
               separatorBuilder: (context, _) => const SizedBox(height: 10),

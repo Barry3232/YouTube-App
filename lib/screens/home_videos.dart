@@ -1,21 +1,26 @@
 // import 'package:flutter/material.dart';
 // import 'package:video_player/video_player.dart';
 //
+// import '../widgets/userAvatar.dart';
+//
 // class HomeVideos extends StatefulWidget {
 //   const HomeVideos({
 //     super.key,
 //     required this.text,
-//     required this.image,
+//     // required this.image,
 //     required this.videoUrl,
 //     required this.description,
+//     required this.userId,
 //     this.height,
 //   });
 //
 //   final String text;
 //   final String description;
-//   final ImageProvider image;
+//
+//   // final ImageProvider image;
 //   final String videoUrl;
 //   final double? height;
+//   final String userId;
 //
 //   @override
 //   State<HomeVideos> createState() => _HomeVideosState();
@@ -23,17 +28,32 @@
 //
 // class _HomeVideosState extends State<HomeVideos> {
 //   late VideoPlayerController _videoPlayerController;
-//
-//   // String get text => '';
-//
-//   // late String text;
+//   late Future<void> _initializeVideoPlayerFuture;
 //
 //   @override
 //   void initState() {
-//     _videoPlayerController = VideoPlayerController.networkUrl(
-//       Uri.parse(widget.videoUrl),
-//     )..initialize().then((value) {});
 //     super.initState();
+//     _videoPlayerController = VideoPlayerController.networkUrl(
+//       Uri.parse("${widget.videoUrl}.mp4"),
+//     );
+//     _initializeVideoPlayerFuture =
+//         _videoPlayerController.initialize().then((_) {
+//       print("✅ Video initialized: ${widget.videoUrl}");
+//       print("Aspect ratio: ${_videoPlayerController.value.aspectRatio}");
+//     }).catchError((e) {
+//       print("❌ Video init error: $e");
+//       // Handle specific ExoPlayer errors
+//       if (e.toString().contains('MediaCodecVideoRenderer')) {
+//         print(
+//             "🔧 ExoPlayer codec error detected - this may be due to video format compatibility");
+//       }
+//     });
+//   }
+//
+//   @override
+//   void dispose() {
+//     _videoPlayerController.dispose();
+//     super.dispose();
 //   }
 //
 //   @override
@@ -43,54 +63,52 @@
 //         Container(
 //           height: widget.height ?? 200,
 //           width: double.infinity,
-//           color: Colors.grey,
+//           color: Colors.black12,
 //           child:
-//               // Padding(
-//               //   padding: const EdgeInsets.all(20.0),
-//               //   child:
-//               Stack(
-//                 children: [
-//                   Center(
-//                     child: AspectRatio(
-//                       // aspectRatio: _videoPlayerController.value.aspectRatio,
-//                       // _videoPlayerController.value.aspectRatio
-//                       aspectRatio: 1.7,
-//                       child: InkWell(
-//                         onTap: () {
-//                           setState(() {
-//                             _videoPlayerController.value.isPlaying
-//                                 ? _videoPlayerController.pause()
-//                                 : _videoPlayerController.play();
-//                           });
-//                         },
-//                         child: VideoPlayer(_videoPlayerController),
-//                       ),
-//                     ),
+//           FutureBuilder(
+//             future: _initializeVideoPlayerFuture,
+//             builder: (context, snapshot) {
+//               if (snapshot.connectionState == ConnectionState.done &&
+//                   _videoPlayerController.value.isInitialized) {
+//                 return AspectRatio(
+//                   aspectRatio: _videoPlayerController.value.aspectRatio > 0
+//                       ? _videoPlayerController.value.aspectRatio
+//                       : 16 / 9,
+//                   // _videoPlayerController.value.aspectRatio,
+//                   child: InkWell(
+//                     onTap: () {
+//                       setState(() {
+//                         _videoPlayerController.value.isPlaying
+//                             ? _videoPlayerController.pause()
+//                             : _videoPlayerController.play();
+//                       });
+//                     },
+//                     child: VideoPlayer(_videoPlayerController),
 //                   ),
-//                 ],
-//               ),
+//                 );
+//               } else if (snapshot.hasError) {
+//                 return Center(
+//                   child: Text("Error loading video: ${snapshot.error}"),
+//                 );
+//               } else {
+//                 return const Center(child: CircularProgressIndicator());
+//               }
+//             },
+//           ),
 //         ),
-//         // ),
 //         Row(
 //           children: [
-//             Column(
-//               children: [
-//                 Padding(
-//                   padding: const EdgeInsets.all(15.0),
-//                   child: CircleAvatar(
-//                     backgroundImage: widget.image,
-//                     minRadius: 25,
-//                   ),
-//                 ),
-//               ],
+//             Padding(
+//               padding: const EdgeInsets.all(15.0),
+//               child: UserAvatar(
+//                 userId: widget.userId,
+//               ),
 //             ),
 //             Expanded(
 //               child: Column(
 //                 crossAxisAlignment: CrossAxisAlignment.start,
 //                 children: [Text(widget.text), Text(widget.description)],
 //               ),
-//
-//               //,
 //             ),
 //           ],
 //         ),
@@ -102,21 +120,23 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
+import '../widgets/userAvatar.dart';
+
 class HomeVideos extends StatefulWidget {
   const HomeVideos({
     super.key,
     required this.text,
-    required this.image,
     required this.videoUrl,
     required this.description,
+    required this.userId,
     this.height,
   });
 
   final String text;
   final String description;
-  final ImageProvider image;
   final String videoUrl;
   final double? height;
+  final String userId;
 
   @override
   State<HomeVideos> createState() => _HomeVideosState();
@@ -129,19 +149,23 @@ class _HomeVideosState extends State<HomeVideos> {
   @override
   void initState() {
     super.initState();
+
     _videoPlayerController = VideoPlayerController.networkUrl(
       Uri.parse("${widget.videoUrl}.mp4"),
     );
-    _initializeVideoPlayerFuture = _videoPlayerController.initialize().then((_) {
-      print("✅ Video initialized: ${widget.videoUrl}");
-      print("Aspect ratio: ${_videoPlayerController.value.aspectRatio}");
-    }).catchError((e) {
-      print("❌ Video init error: $e");
-      // Handle specific ExoPlayer errors
-      if (e.toString().contains('MediaCodecVideoRenderer')) {
-        print("🔧 ExoPlayer codec error detected - this may be due to video format compatibility");
-      }
-    });
+
+    _initializeVideoPlayerFuture =
+        _videoPlayerController.initialize().then((_) {
+          print("✅ Video initialized: ${widget.videoUrl}");
+          print("Aspect ratio: ${_videoPlayerController.value.aspectRatio}");
+        }).catchError((e) {
+          print("❌ Video init error: $e");
+          if (e.toString().contains('MediaCodecVideoRenderer')) {
+            print("🔧 ExoPlayer codec error - likely video format issue");
+          }
+        });
+
+    _videoPlayerController.setLooping(true);
   }
 
   @override
@@ -153,52 +177,106 @@ class _HomeVideosState extends State<HomeVideos> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          height: widget.height ?? 200,
-          width: double.infinity,
-          color: Colors.black12,
-          child: FutureBuilder(
-            future: _initializeVideoPlayerFuture,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done &&
-                  _videoPlayerController.value.isInitialized) {
-                return AspectRatio(
-                  aspectRatio: _videoPlayerController.value.aspectRatio > 0
-                      ? _videoPlayerController.value.aspectRatio
-                      : 16 / 9,
-                  // _videoPlayerController.value.aspectRatio,
-                  child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        _videoPlayerController.value.isPlaying
-                            ? _videoPlayerController.pause()
-                            : _videoPlayerController.play();
-                      });
-                    },
-                    child: VideoPlayer(_videoPlayerController),
+        // 🟢 --- Video Player Section ---
+        FutureBuilder(
+          future: _initializeVideoPlayerFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done &&
+                _videoPlayerController.value.isInitialized) {
+              return ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: widget.height ?? 220, // consistent feed height
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      // 👇 Video fills box without distortion
+                      FittedBox(
+                        fit: BoxFit.cover,
+                        // clipBehavior: Clip.hardEdge,
+                        child: SizedBox(
+                          width: _videoPlayerController.value.size.width,
+                          height: _videoPlayerController.value.size.height,
+                          child: VideoPlayer(_videoPlayerController),
+                        ),
+                      ),
+                      // 👇 Play / pause on tap
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            if (_videoPlayerController.value.isPlaying) {
+                              _videoPlayerController.pause();
+                            } else {
+                              _videoPlayerController.play();
+                            }
+                          });
+                        },
+                      ),
+                    ],
                   ),
-                );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text("Error loading video: ${snapshot.error}"),
-                );
-              } else {
-                return const Center(child: CircularProgressIndicator());
-              }
-            },
-          ),
+                ),
+              );
+            } else if (snapshot.hasError) {
+              return Container(
+                height: widget.height ?? 220,
+                width: MediaQuery.of(context).size.width,
+
+                color: Colors.black12,
+                child: Center(
+                  child: Text(
+                    "Error loading video: ${snapshot.error}",
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                ),
+              );
+            } else {
+              return Container(
+                height: widget.height ?? 220,
+                color: Colors.black12,
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            }
+          },
         ),
+
+        // 🟣 --- Video Description Section ---
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.all(15.0),
-              child: CircleAvatar(backgroundImage: widget.image, minRadius: 25),
+              child: UserAvatar(
+                userId: widget.userId,
+              ),
             ),
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [Text(widget.text), Text(widget.description)],
+              child: Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.text,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      widget.description,
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -207,3 +285,4 @@ class _HomeVideosState extends State<HomeVideos> {
     );
   }
 }
+
