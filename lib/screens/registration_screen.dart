@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart' as f_auth;
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
 
@@ -34,10 +35,24 @@ class _SignUpState extends State<SignUpScreen> {
 
     try {
       final authInstance = f_auth.FirebaseAuth.instance;
-      await authInstance.createUserWithEmailAndPassword(
+      final userCredential = await authInstance.createUserWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
+
+      //get the current user's UID
+      final uid = userCredential.user?.uid;
+
+      //save user info to firebase realtime Database
+      if(uid != null) {
+        await FirebaseDatabase.instance.ref('users/$uid').set({
+          'firstName' : firstNameController.text.trim(),
+          'middleName' : middleNameController.text.trim(),
+          'lastName': lastNameController.text.trim(),
+          'email': emailController.text.trim(),
+          'profilePic': '',
+        });
+      }
 
       Navigator.of(context).push(
         MaterialPageRoute(

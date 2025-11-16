@@ -65,6 +65,7 @@ class FirstScreenState extends State<FirstScreen> {
     print("Post count: ${allPostList.length}");
     print(allPostList.map((p) => p.videoUrl).toList());
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
@@ -121,6 +122,8 @@ class FirstScreenState extends State<FirstScreen> {
                     videoTitle: allPostList[index].title,
                     videoDescription: allPostList[index].description,
                     videoUrl: allPostList[index].videoUrl,
+                    videoId:  allPostList[index].id,
+
                   ),
                 ),
                 child: HomeVideos(

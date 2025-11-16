@@ -16,44 +16,51 @@ class YouScreen extends StatefulWidget {
 
 class YouScreenState extends State<YouScreen> {
   String? _profilePicUrl;
+  String? _userFullName;
   bool _uploading = false;
 
-  // load currently saved profile picture of user
-  Future<void> _loadingExistingAvatar() async {
+  // load currently saved profile picture of users
+  Future<void> _loadUserData() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return; // user not signed in
 
     try {
-      // Read the single value at users/<uid>/profilePic
-      final snapshot = await FirebaseDatabase.instance
-          .ref('users/${user.uid}/profilePic')
-          .get();
+      final ref = FirebaseDatabase.instance.ref('users/${user.uid}');
+      ref.onValue.listen((event) {
+        if (!mounted) return;
 
-      if (snapshot.exists && snapshot.value != null) {
+        final snapshot = event.snapshot.value;
+        if (snapshot == null) return;
+
+        final data = Map<String, dynamic>.from(snapshot as Map<dynamic, dynamic>);
+
         setState(() {
-          // snapshot.value can be dynamic; convert to String
-          _profilePicUrl = snapshot.value.toString();
+          _profilePicUrl = data['profilePic'] ?? '';
+          final first = data['firstName'] ?? '';
+          final last = data['lastName'] ?? '';
+          _userFullName = "$first $last";
         });
-      }
+      });
+
     } catch (e) {
       // optional: log error, but don't crash UI
-      debugPrint('Error reading profilePic from RTDB: $e');
+      debugPrint('Error loading user data: $e');
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData(); // loads both name and picture
   }
 
   // pick an image from the gallery, upload to storage , then update RTDB
 
   Future<void> _pickAndUploadImage() async {
     final user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('please sign in first')));
-      }
-      return;
-    }
+    if (user == null) return;
     try {
-      // pick video
+      // pick image
       final picker = ImagePicker();
       final picked = await picker.pickImage(
         source: ImageSource.gallery,
@@ -75,16 +82,7 @@ class YouScreenState extends State<YouScreen> {
           .child("${user.uid}.jpg");
       await ref.putFile(file);
 
-      // Optional metadata (helps browsers/clients know the type)
-      final metadata = SettableMetadata(contentType: 'image/jpeg');
-
-      // Upload the file
-      final uploadTask = ref.putFile(file, metadata);
-
-      // Await completion
-      await uploadTask.whenComplete(() {});
-
-      //get URL
+       //get URL
       final url = await ref.getDownloadURL();
 
       // Save URL into Realtime Database under users/<uid>/profilePic
@@ -114,20 +112,14 @@ class YouScreenState extends State<YouScreen> {
     }
   }
 
-  // get current avatar when widget mounts
-  @override
-  void initState() {
-    super.initState();
-    _loadingExistingAvatar(); // pull previously saved photo when the widget mounts
-  }
-
   @override
   Widget build(BuildContext context) {
     final imageProvider = _profilePicUrl != null
         ? NetworkImage(_profilePicUrl!)
-        : const AssetImage('assets/images/default_avatar.png') as ImageProvider;
+        : const AssetImage('assets/images/images1.jpg') as ImageProvider;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
@@ -181,28 +173,21 @@ class YouScreenState extends State<YouScreen> {
                         // Tiny progress ring over the avatar while uploading
                         if (_uploading)
                           const SizedBox(
-                            width: 1.7,
-                            height: 1.7,
-                            child: CircularProgressIndicator(strokeWidth: 13),
+                            width: 24,
+                            height: 24,
+                            child: CircularProgressIndicator(strokeWidth: 2),
                           ),
                       ],
                     ),
                   ),
                 ),
 
-                // // Tiny progress ring over the avatar while uploading
-                // if (_uploading)
-                //   const SizedBox(
-                //     width: 1.7,
-                //     height: 1.7,
-                //     child: CircularProgressIndicator(strokeWidth: 3),
-                //   ),
-
                 const SizedBox(width: 10),
 
-                const Text(
-                  'Nganigo Barisuka',
-                  style: TextStyle(fontSize: 21, fontWeight: FontWeight.w600),
+                Text(
+                  _userFullName ?? 'loading...',
+                  style: const TextStyle(
+                      fontSize: 21, fontWeight: FontWeight.w600),
                 ),
               ],
             ),

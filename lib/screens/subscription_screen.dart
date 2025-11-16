@@ -90,19 +90,57 @@ class SubscriptionScreenState extends State<SubscriptionScreen> {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      MyCircularAvatar(text: 'text'),
+                      MyCircularAvatar(
+                        text: 'text',
+                        image:
+                            const AssetImage('assets/images/Allie Goldman.png'),
+                      ),
                       const SizedBox(width: 10),
-                      MyCircularAvatar(text: 'Dream'),
+                      MyCircularAvatar(
+                        text: 'Dream',
+                        image: const AssetImage(
+                            'assets/images/default_avatar.png'),
+                      ),
                       const SizedBox(width: 10),
-                      MyCircularAvatar(text: 'Space'),
+                      MyCircularAvatar(
+                        text: 'Space',
+                        image:
+                            const AssetImage('assets/images/Jens Röhrdanz.png'),
+                      ),
                       const SizedBox(width: 10),
-                      MyCircularAvatar(text: 'Spacer'),
+                      MyCircularAvatar(
+                        text: 'Spacer',
+                        image: const AssetImage('assets/images/images1.jpg'),
+                      ),
                       const SizedBox(width: 10),
-                      MyCircularAvatar(text: 'Vault'),
+                      MyCircularAvatar(
+                        text: 'Vault',
+                        image:
+                            const AssetImage('assets/images/Jens Röhrdanz.png'),
+                      ),
                       const SizedBox(width: 10),
-                      MyCircularAvatar(text: 'Bloom'),
+                      MyCircularAvatar(
+                        text: 'Bloom',
+                        image:
+                            const AssetImage('assets/images/Omari Norris.png'),
+                      ),
                       const SizedBox(width: 10),
-                      MyCircularAvatar(text: 'Drain'),
+                      MyCircularAvatar(
+                        text: 'Drain',
+                        image:
+                            const AssetImage('assets/images/Polina Kranz.png'),
+                      ),
+                      const SizedBox(width: 10),
+                      MyCircularAvatar(
+                        text: 'Drain',
+                        image:
+                            const AssetImage('assets/images/Thomas Stone.png'),
+                      ),
+                      const SizedBox(width: 10),
+                      MyCircularAvatar(
+                        text: 'Drain',
+                        image: const AssetImage('assets/images/images1.jpg'),
+                      ),
                     ],
                   ),
                 ),
@@ -135,8 +173,8 @@ class SubscriptionScreenState extends State<SubscriptionScreen> {
                             color: (index == 8)
                                 ? Colors.transparent
                                 : current == index
-                                ? Colors.black
-                                : Colors.black12,
+                                    ? Colors.black
+                                    : Colors.black12,
                             borderRadius: BorderRadius.circular(5),
                           ),
                           child: Center(
@@ -147,8 +185,8 @@ class SubscriptionScreenState extends State<SubscriptionScreen> {
                                 color: (current == index && index == 8)
                                     ? Colors.blue
                                     : current == index
-                                    ? Colors.white
-                                    : Colors.black,
+                                        ? Colors.white
+                                        : Colors.black,
                               ),
                             ),
                           ),
@@ -161,7 +199,10 @@ class SubscriptionScreenState extends State<SubscriptionScreen> {
             ),
             SizedBox(
               width: deviceSize.width,
-              child: Column(children: [widgets[current]]),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [widgets[current]]),
             ),
           ],
         ),

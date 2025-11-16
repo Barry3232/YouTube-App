@@ -2,7 +2,10 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class UserAvatar extends StatelessWidget {
-  const UserAvatar({super.key, required this.userId, this.radius = 25});
+  const UserAvatar({super.key,
+  required this.userId,
+  this.radius = 25});
+
   final String userId;
   final double radius;
 
